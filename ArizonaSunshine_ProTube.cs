@@ -42,14 +42,9 @@ namespace ArizonaSunshine_ProTube
 
         public static void dualWieldSort()
         {
-            //MelonLogger.Msg("Channels: " + ForceTubeVRInterface.ListChannels());
-            //JsonDocument doc = JsonDocument.Parse(ForceTubeVRInterface.ListChannels());
-            //JsonElement pistol1 = doc.RootElement.GetProperty("channels").GetProperty("pistol1");
-            //JsonElement pistol2 = doc.RootElement.GetProperty("channels").GetProperty("pistol2");
             ForceTubeVRInterface.FTChannelFile myChannels = JsonConvert.DeserializeObject<ForceTubeVRInterface.FTChannelFile>(ForceTubeVRInterface.ListChannels());
             var pistol1 = myChannels.channels.pistol1;
             var pistol2 = myChannels.channels.pistol2;
-            MelonLogger.Msg("Pistol1: " + pistol1[0].name);
             if ((pistol1.Count > 0) && (pistol2.Count > 0))
             {
                 dualWield = true;
@@ -65,6 +60,7 @@ namespace ArizonaSunshine_ProTube
                     string rightHand = readChannel("pistol1");
                     string leftHand = readChannel("pistol2");
                     MelonLogger.Msg("Found and loaded configuration. Right hand: " + rightHand + ", Left hand: " + leftHand);
+                    // Channels 4 and 5 are ForceTubeVRChannel.pistol1 and pistol2
                     ForceTubeVRInterface.ClearChannel(4);
                     ForceTubeVRInterface.ClearChannel(5);
                     ForceTubeVRInterface.AddToChannel(4, rightHand);
@@ -109,9 +105,8 @@ namespace ArizonaSunshine_ProTube
                         break;
                 }
                 ForceTubeVRChannel myChannel = ForceTubeVRChannel.pistol1;
-                if (dualWield)
-                    if (!(__instance.EquipmentSlot.SlotID == E_EQUIPMENT_SLOT_ID.RIGHT_HAND))
-                        myChannel = ForceTubeVRChannel.pistol2;
+                if (!(__instance.EquipmentSlot.SlotID == E_EQUIPMENT_SLOT_ID.RIGHT_HAND))
+                    myChannel = ForceTubeVRChannel.pistol2;
                 ForceTubeVRInterface.Kick(kickPower, myChannel);
             }
         }
