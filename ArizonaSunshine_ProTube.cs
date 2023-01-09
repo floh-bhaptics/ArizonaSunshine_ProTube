@@ -49,6 +49,7 @@ namespace ArizonaSunshine_ProTube
             ForceTubeVRInterface.FTChannelFile myChannels = JsonConvert.DeserializeObject<ForceTubeVRInterface.FTChannelFile>(ForceTubeVRInterface.ListChannels());
             var pistol1 = myChannels.channels.pistol1;
             var pistol2 = myChannels.channels.pistol2;
+            MelonLogger.Msg("Pistol1: " + pistol1[0].name);
             if ((pistol1.Count > 0) && (pistol2.Count > 0))
             {
                 dualWield = true;
@@ -88,8 +89,25 @@ namespace ArizonaSunshine_ProTube
             public static void Postfix(Gun __instance, bool __result)
             {
                 if (!__result) return;
-                MelonLogger.Msg("Recoil: " + __instance.CurrentRecoil.ToString());
-                byte kickPower = 220;
+                byte kickPower = 200;
+                switch (__instance.AmmoType)
+                {
+                    case E_AMMO_TYPE.AMMO_BULLET:
+                        kickPower = 200;
+                        break;
+                    case E_AMMO_TYPE.AMMO_MACHINE:
+                        kickPower = 200;
+                        break;
+                    case E_AMMO_TYPE.AMMO_SHELL:
+                        kickPower = 230;
+                        break;
+                    case E_AMMO_TYPE.AMMO_GRENADE:
+                        kickPower = 170;
+                        break;
+                    case E_AMMO_TYPE.AMMO_SNIPER:
+                        kickPower = 255;
+                        break;
+                }
                 ForceTubeVRChannel myChannel = ForceTubeVRChannel.pistol1;
                 if (dualWield)
                     if (!(__instance.EquipmentSlot.SlotID == E_EQUIPMENT_SLOT_ID.RIGHT_HAND))
