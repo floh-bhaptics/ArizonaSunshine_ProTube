@@ -91,7 +91,9 @@ namespace ArizonaSunshine_ProTube
                 MelonLogger.Msg("Recoil: " + __instance.CurrentRecoil.ToString());
                 byte kickPower = 220;
                 ForceTubeVRChannel myChannel = ForceTubeVRChannel.pistol1;
-                if (!(__instance.EquipmentSlot.SlotID == E_EQUIPMENT_SLOT_ID.RIGHT_HAND)) myChannel = ForceTubeVRChannel.pistol2;
+                if (dualWield)
+                    if (!(__instance.EquipmentSlot.SlotID == E_EQUIPMENT_SLOT_ID.RIGHT_HAND))
+                        myChannel = ForceTubeVRChannel.pistol2;
                 ForceTubeVRInterface.Kick(kickPower, myChannel);
             }
         }
