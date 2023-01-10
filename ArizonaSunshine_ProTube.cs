@@ -12,7 +12,7 @@ using UnityEngine;
 using System.IO;
 using System.Threading;
 
-[assembly: MelonInfo(typeof(ArizonaSunshine_ProTube.ArizonaSunshine_ProTube), "ArizonaSunshine_ProTube", "1.0.0", "Florian Fahrenberger")]
+[assembly: MelonInfo(typeof(ArizonaSunshine_ProTube.ArizonaSunshine_ProTube), "ArizonaSunshine_ProTube", "1.0.1", "Florian Fahrenberger")]
 [assembly: MelonGame("Vertigo Games", "ArizonaSunshine")]
 
 namespace ArizonaSunshine_ProTube
@@ -49,16 +49,16 @@ namespace ArizonaSunshine_ProTube
             {
                 dualWield = true;
                 MelonLogger.Msg("Two ProTube devices detected, player is dual wielding.");
-                if ((readChannel("pistol1") == "") || (readChannel("pistol2") == ""))
+                if ((readChannel("rightHand") == "") || (readChannel("leftHand") == ""))
                 {
                     MelonLogger.Msg("No configuration files found, saving current right and left hand pistols.");
-                    saveChannel("pistol1", pistol1[0].name);
-                    saveChannel("pistol2", pistol2[0].name);
+                    saveChannel("rightHand", pistol1[0].name);
+                    saveChannel("leftHand", pistol2[0].name);
                 }
                 else
                 {
-                    string rightHand = readChannel("pistol1");
-                    string leftHand = readChannel("pistol2");
+                    string rightHand = readChannel("rightHand");
+                    string leftHand = readChannel("leftHand");
                     MelonLogger.Msg("Found and loaded configuration. Right hand: " + rightHand + ", Left hand: " + leftHand);
                     // Channels 4 and 5 are ForceTubeVRChannel.pistol1 and pistol2
                     ForceTubeVRInterface.ClearChannel(4);
