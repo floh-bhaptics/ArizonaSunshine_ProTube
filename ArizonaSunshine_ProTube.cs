@@ -12,7 +12,7 @@ using UnityEngine;
 using System.IO;
 using System.Threading;
 
-[assembly: MelonInfo(typeof(ArizonaSunshine_ProTube.ArizonaSunshine_ProTube), "ArizonaSunshine_ProTube", "1.0.1", "Florian Fahrenberger")]
+[assembly: MelonInfo(typeof(ArizonaSunshine_ProTube.ArizonaSunshine_ProTube), "ArizonaSunshine_ProTube", "1.1.0", "Florian Fahrenberger")]
 [assembly: MelonGame("Vertigo Games", "ArizonaSunshine")]
 
 namespace ArizonaSunshine_ProTube
@@ -67,6 +67,16 @@ namespace ArizonaSunshine_ProTube
                     ForceTubeVRInterface.AddToChannel(5, leftHand);
                 }
             }
+            else if (File.Exists(configPath + "lefty.pro"))
+            {
+                MelonLogger.Msg("File for only left channel detected. Player is a lefty.");
+                string leftHand = myChannels.channels.pistol1[0].name;
+                MelonLogger.Msg("Found one ProTube device. Left hand: " + leftHand);
+                ForceTubeVRInterface.ClearChannel(4);
+                ForceTubeVRInterface.ClearChannel(5);
+                // ForceTubeVRInterface.AddToChannel(4, rightHand);
+                ForceTubeVRInterface.AddToChannel(5, leftHand);
+            }
         }
 
         private static void InitializeProTube()
@@ -85,6 +95,7 @@ namespace ArizonaSunshine_ProTube
             public static void Postfix(Gun __instance, bool __result)
             {
                 if (!__result) return;
+                if (!__instance.IsControlledLocally) return;
                 byte kickPower = 200;
                 switch (__instance.AmmoType)
                 {
